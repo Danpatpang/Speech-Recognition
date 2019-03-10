@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Voice</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+<h1>음성 인식</h1>
+
+<div>
+    <input id="speech" type="button" value="시작">
+    <input id="stop" type="button" value="끝">
+</div>
+
+<h3 id="message">여기는 이벤트로 변경시킬거야.</h3>
+
+<textarea id="voice-recognition" cols="30" rows="10" placeholder="인식된 문장"></textarea>
+<textarea id="voice-translation" cols="30" rows="10" placeholder="추후 개발"></textarea>
+
+<script src="./js/recognition.js"></script>
+</body>
+</html>
