@@ -1,0 +1,25 @@
+body {
+    text-align: center;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+input[type="button"] {
+    width: 120px;
+    height: 50px;
+    margin: 0px 10px;
+    border: black 2px solid;
+    background-color: #FFFFFF;
+    opacity: 1;
+}
+
+textarea {
+    width: 400px;
+    height: 200px;
+    margin: 0px 10px;
+    border: darkblue 1px solid;
+    border-radius: 5px;
+    font-size: 15px;
+}
