@@ -8,6 +8,7 @@ var voiceTranslation = document.querySelector("#voice-translation");
 var isSupportRecognition = false;
 var isRecognizing = false;
 var result = null;
+var translatedResult = null;
 
 // 브라우저가 음성 인식을 지원하는지 확인
 if ('webkitSpeechRecognition' in window) {
@@ -57,7 +58,6 @@ function startSpeechRecognition() {
          * __proto__: SpeechRecognitionResultList
          */
         result = event.results[0][0].transcript;
-        console.log(result);
         voiceRecognition.innerHTML = result;
     }
 }
@@ -65,10 +65,26 @@ function startSpeechRecognition() {
 // 음성 인식 종료
 function stopRecognition() {
     recognition.stop();
+    sendMessage();
     isRecognizing = false;
     message.innerHTML = "음성 인식 끝!!!";
     speechButton.disabled = false;
-    stopButton.disabled = true;
+}
+
+// 서버와 Ajax 통신
+function sendMessage() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "./translation");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    var jsonData = JSON.stringify({"data" : result});
+    xhr.send(jsonData);
+
+    xhr.onreadystatechange = () => {
+      if(xhr.readyState === 4 && xhr.status === 200) {
+          translatedResult = JSON.parse(xhr.responseText).result.toString();
+          voiceTranslation.innerHTML = translatedResult;
+      }
+    };
 }
 
 window.onload = () => {
