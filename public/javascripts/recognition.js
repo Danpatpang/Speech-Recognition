@@ -1,13 +1,13 @@
-var speechButton = document.querySelector("#speech");
-var stopButton = document.querySelector("#stop");
-var message = document.querySelector("#message");
+let speechButton = document.querySelector("#speech");
+let stopButton = document.querySelector("#stop");
+let message = document.querySelector("#message");
 
-var voiceRecognition = document.querySelector("#voice-recognition");
-var voiceTranslation = document.querySelector("#voice-translation");
+let voiceRecognition = document.querySelector("#voice-recognition");
+let voiceTranslation = document.querySelector("#voice-translation");
 
-var isSupportRecognition = false;
-var isRecognizing = false;
-var result = null;
+let isSupportRecognition = false;
+let isRecognizing = false;
+let result = null;
 
 // 브라우저가 음성 인식을 지원하는지 확인
 if ('webkitSpeechRecognition' in window) {
@@ -21,7 +21,7 @@ if ('webkitSpeechRecognition' in window) {
 
 // SpeechRecognition 초기 설정
 if (isSupportRecognition) {
-    var recognition = new window.webkitSpeechRecognition();
+    let recognition = new window.webkitSpeechRecognition();
     // recognition.lang = 'en-US'; // 영어만 인식
     recognition.lang = `ko-KR`;
     recognition.continuous = false;
@@ -68,7 +68,6 @@ function stopRecognition() {
     isRecognizing = false;
     message.innerHTML = "음성 인식 끝!!!";
     speechButton.disabled = false;
-    stopButton.disabled = true;
 }
 
 window.onload = () => {
