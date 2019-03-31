@@ -1,13 +1,14 @@
-let speechButton = document.querySelector("#speech");
-let stopButton = document.querySelector("#stop");
-let message = document.querySelector("#message");
+var speechButton = document.querySelector("#speech");
+var stopButton = document.querySelector("#stop");
+var message = document.querySelector("#message");
 
-let voiceRecognition = document.querySelector("#voice-recognition");
-let voiceTranslation = document.querySelector("#voice-translation");
+var voiceRecognition = document.querySelector("#voice-recognition");
+var voiceTranslation = document.querySelector("#voice-translation");
 
-let isSupportRecognition = false;
-let isRecognizing = false;
-let result = null;
+var isSupportRecognition = false;
+var isRecognizing = false;
+var result = null;
+var translatedResult = null;
 
 // 브라우저가 음성 인식을 지원하는지 확인
 if ('webkitSpeechRecognition' in window) {
@@ -21,7 +22,7 @@ if ('webkitSpeechRecognition' in window) {
 
 // SpeechRecognition 초기 설정
 if (isSupportRecognition) {
-    let recognition = new window.webkitSpeechRecognition();
+    var recognition = new window.webkitSpeechRecognition();
     // recognition.lang = 'en-US'; // 영어만 인식
     recognition.lang = `ko-KR`;
     recognition.continuous = false;
@@ -57,7 +58,6 @@ function startSpeechRecognition() {
          * __proto__: SpeechRecognitionResultList
          */
         result = event.results[0][0].transcript;
-        console.log(result);
         voiceRecognition.innerHTML = result;
     }
 }
@@ -65,9 +65,26 @@ function startSpeechRecognition() {
 // 음성 인식 종료
 function stopRecognition() {
     recognition.stop();
+    sendMessage();
     isRecognizing = false;
     message.innerHTML = "음성 인식 끝!!!";
     speechButton.disabled = false;
+}
+
+// 서버와 Ajax 통신
+function sendMessage() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "./translation");
+    xhr.setRequestHeader("Content-Type", "application/json");
+    var jsonData = JSON.stringify({"data" : result});
+    xhr.send(jsonData);
+
+    xhr.onreadystatechange = () => {
+      if(xhr.readyState === 4 && xhr.status === 200) {
+          translatedResult = JSON.parse(xhr.responseText).result.toString();
+          voiceTranslation.innerHTML = translatedResult;
+      }
+    };
 }
 
 window.onload = () => {
